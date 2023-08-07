@@ -22,9 +22,12 @@ const LoginScreen = () => {
       <TouchableOpacity style={styles.loginButton} onPress={handleLoginButtonPress}>
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleRegisterLinkPress}>
-        <Text style={styles.registerLink}>New to the app? Register</Text>
-      </TouchableOpacity>
+      <View style={styles.registerLinkContainer}>
+        <Text style={styles.registerText}>New to the app? </Text>
+        <TouchableOpacity onPress={handleRegisterLinkPress}>
+          <Text style={styles.registerLink}>Register</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -62,10 +65,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  registerLinkContainer: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  registerText: {
+    fontSize: 16,
+  },
   registerLink: {
     fontSize: 16,
     color: 'blue',
-    marginTop: 20,
   },
 });
 

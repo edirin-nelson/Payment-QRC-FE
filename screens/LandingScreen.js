@@ -12,7 +12,7 @@ const LandingScreen = () => {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.headerText}>Welcome to QR Payment App</Text>
+      <Text style={styles.headerText}>QRC-Pay</Text>
       <TouchableOpacity style={styles.beginButton} onPress={handleBeginButtonPress}>
         <Text style={styles.beginButtonText}>Let's Begin</Text>
       </TouchableOpacity>
@@ -32,11 +32,10 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   beginButton: {
-    backgroundColor: 'tomato',
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    backgroundColor: 'purple',
     borderRadius: 8,
-    marginBottom: 40,
+    paddingVertical: 12,
+    paddingHorizontal: 20,
   },
   beginButtonText: {
     color: 'white',

@@ -26,9 +26,12 @@ const RegistrationScreen = () => {
       <TouchableOpacity style={styles.registerButton} onPress={handleRegisterButtonPress}>
         <Text style={styles.registerButtonText}>Register</Text>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleLoginLinkPress}>
-        <Text style={styles.loginLink}>Already have an account? Login</Text>
-      </TouchableOpacity>
+      <View style={styles.loginLinkContainer}>
+        <Text style={styles.loginText}>Already have an account? </Text>
+        <TouchableOpacity onPress={handleLoginLinkPress}>
+          <Text style={styles.loginLink}>Login</Text>
+        </TouchableOpacity>
+      </View>
     </View>
   );
 };
@@ -66,10 +69,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: 'bold',
   },
+  loginLinkContainer: {
+    flexDirection: 'row',
+    marginTop: 20,
+  },
+  loginText: {
+    fontSize: 16,
+  },
   loginLink: {
     fontSize: 16,
     color: 'blue',
-    marginTop: 20,
   },
 });
 
