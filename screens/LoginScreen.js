@@ -1,11 +1,15 @@
-// screens/LoginScreen.js
-import React from 'react';
+import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import Icon from 'react-native-vector-icons/FontAwesome';
 import { useNavigation } from '@react-navigation/native';
-import axios from 'axios';
+import api from '../api/apiManager'; // Import the api module
 
 const LoginScreen = () => {
   const navigation = useNavigation();
+
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleRegisterLinkPress = () => {
     navigation.navigate('RegistrationScreen');
@@ -18,12 +22,13 @@ const LoginScreen = () => {
       password: password,
     };
 
-    // Make the API request to the login endpoint
-    axios
-      .post('http://localhost:9000/api/v1/auth/login', loginRequest)
+    // Make the API request to the login endpoint using the API manager
+    api
+      .post('auth/login', loginRequest) // Assuming 'auth' is the base URL for authentication endpoints
       .then((response) => {
         // Handle successful response here
         console.log('Login successful:', response.data);
+        navigation.navigate('HomeScreen'); // Navigate to the home screen after successful login
       })
       .catch((error) => {
         // Handle error here
@@ -31,11 +36,34 @@ const LoginScreen = () => {
       });
   };
 
+  const togglePasswordVisibility = () => {
+    setShowPassword(!showPassword);
+  };
+
   return (
     <View style={styles.container}>
       <Text style={styles.headerText}>Login</Text>
-      <TextInput style={styles.input} placeholder="Email" />
-      <TextInput style={styles.input} placeholder="Password" secureTextEntry={true} />
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={setEmail}
+        autoCapitalize="none"
+        autoCompleteType="email"
+        keyboardType="email-address"
+      />
+      <View style={styles.passwordInputContainer}>
+        <TextInput
+          style={styles.passwordInput}
+          placeholder="Password"
+          secureTextEntry={!showPassword}
+          value={password}
+          onChangeText={setPassword}
+        />
+        <TouchableOpacity onPress={togglePasswordVisibility} style={styles.passwordVisibilityIcon}>
+          <Icon name={showPassword ? 'eye-slash' : 'eye'} size={20} color="gray" />
+        </TouchableOpacity>
+      </View>
       <TouchableOpacity style={styles.loginButton} onPress={handleLoginButtonPress}>
         <Text style={styles.loginButtonText}>Login</Text>
       </TouchableOpacity>
@@ -68,6 +96,24 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
+  },
+  passwordInputContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    width: 300,
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 8,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
+  passwordInput: {
+    flex: 1,
+    height: 40,
+  },
+  passwordVisibilityIcon: {
+    padding: 10,
   },
   loginButton: {
     width: 300,
