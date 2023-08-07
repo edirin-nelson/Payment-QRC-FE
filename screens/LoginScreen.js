@@ -1,135 +1,69 @@
-import React from 'react';
-import {
-  SafeAreaView,
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from 'react-native';
+import React, { useState } from 'react';
+import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
+import axios from 'axios';
 
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
-import Ionicons from 'react-native-vector-icons/Ionicons';
+const LoginScreen = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
 
-import LoginSVG from '../assets/images/misc/login.svg';
-import GoogleSVG from '../assets/images/misc/google.svg';
-import FacebookSVG from '../assets/images/misc/facebook.svg';
-import TwitterSVG from '../assets/images/misc/twitter.svg';
+  const handleLogin = async () => {
+    try {
+      // Make the API request to login
+      const response = await axios.post('http://localhost:9000/api/v1/auth/login', {
+        email,
+        password,
+      });
 
-import CustomButton from '../components/CustomButton';
-import InputField from '../components/InputField';
+      // Handle the login response here
+      console.log('Login response:', response.data);
+    } catch (error) {
+      // Handle errors here (e.g., show error message)
+      console.error('Error logging in:', error);
+    }
+  };
 
-const LoginScreen = ({navigation}) => {
   return (
-    <SafeAreaView style={{flex: 1, justifyContent: 'center'}}>
-      <View style={{paddingHorizontal: 25}}>
-        <View style={{alignItems: 'center'}}>
-          <LoginSVG
-            height={300}
-            width={300}
-            style={{transform: [{rotate: '-5deg'}]}}
-          />
-        </View>
-
-        <Text
-          style={{
-            fontFamily: 'Roboto-Medium',
-            fontSize: 28,
-            fontWeight: '500',
-            color: '#333',
-            marginBottom: 30,
-          }}>
-          Login
-        </Text>
-
-        <InputField
-          label={'Email ID'}
-          icon={
-            <MaterialIcons
-            name="alternate-email"
-            size={20}
-            color="#666"
-            style={{marginRight: 5}}
-          />
-          }
-          keyboardType="email-address"
-        />
-
-<InputField
-          label={'Password'}
-          icon={
-            <Ionicons
-            name="ios-lock-closed-outline"
-            size={20}
-            color="#666"
-            style={{marginRight: 5}}
-          />
-          }
-          inputType="password"
-          fieldButtonLabel={"Forgot?"}
-          fieldButtonFunction={() => {}}
-        />
-        
-        <CustomButton label={"Login"} onPress={() => {}} />
-
-        <Text style={{textAlign: 'center', color: '#666', marginBottom: 30}}>
-          Or, login with ...
-        </Text>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'space-between',
-            marginBottom: 30,
-          }}>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}>
-            <GoogleSVG height={24} width={24} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}>
-            <FacebookSVG height={24} width={24} />
-          </TouchableOpacity>
-          <TouchableOpacity
-            onPress={() => {}}
-            style={{
-              borderColor: '#ddd',
-              borderWidth: 2,
-              borderRadius: 10,
-              paddingHorizontal: 30,
-              paddingVertical: 10,
-            }}>
-            <TwitterSVG height={24} width={24} />
-          </TouchableOpacity>
-        </View>
-
-        <View
-          style={{
-            flexDirection: 'row',
-            justifyContent: 'center',
-            marginBottom: 30,
-          }}>
-          <Text>New to the app?</Text>
-          <TouchableOpacity onPress={() => navigation.navigate('Register')}>
-            <Text style={{color: '#AD40AF', fontWeight: '700'}}> Register</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
-    </SafeAreaView>
+    <View style={styles.container}>
+      <Text style={styles.title}>Login</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Email"
+        value={email}
+        onChangeText={(text) => setEmail(text)}
+      />
+      <TextInput
+        style={styles.input}
+        placeholder="Password"
+        secureTextEntry
+        value={password}
+        onChangeText={(text) => setPassword(text)}
+      />
+      <Button title="Login" onPress={handleLogin} color="navy" />
+    </View>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+  },
+  title: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 20,
+  },
+  input: {
+    width: '80%',
+    height: 40,
+    borderColor: 'gray',
+    borderWidth: 1,
+    borderRadius: 5,
+    paddingHorizontal: 10,
+    marginBottom: 10,
+  },
+});
 
 export default LoginScreen;
