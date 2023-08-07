@@ -2,6 +2,7 @@
 import React from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
+import axios from 'axios';
 
 const LoginScreen = () => {
   const navigation = useNavigation();
@@ -11,7 +12,23 @@ const LoginScreen = () => {
   };
 
   const handleLoginButtonPress = () => {
-    // Handle login functionality here
+    // Create the login request object
+    const loginRequest = {
+      email: email,
+      password: password,
+    };
+
+    // Make the API request to the login endpoint
+    axios
+      .post('http://localhost:9000/api/v1/auth/login', loginRequest)
+      .then((response) => {
+        // Handle successful response here
+        console.log('Login successful:', response.data);
+      })
+      .catch((error) => {
+        // Handle error here
+        console.error('Error logging in:', error);
+      });
   };
 
   return (
