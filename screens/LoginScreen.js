@@ -1,44 +1,30 @@
-import React, { useState } from 'react';
-import { View, Text, TextInput, Button, StyleSheet } from 'react-native';
-import axios from 'axios';
+// screens/LoginScreen.js
+import React from 'react';
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const LoginScreen = () => {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const navigation = useNavigation();
 
-  const handleLogin = async () => {
-    try {
-      // Make the API request to login
-      const response = await axios.post('http://localhost:9000/api/v1/auth/login', {
-        email,
-        password,
-      });
+  const handleRegisterLinkPress = () => {
+    navigation.navigate('RegistrationScreen');
+  };
 
-      // Handle the login response here
-      console.log('Login response:', response.data);
-    } catch (error) {
-      // Handle errors here (e.g., show error message)
-      console.error('Error logging in:', error);
-    }
+  const handleLoginButtonPress = () => {
+    // Handle login functionality here
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Login</Text>
-      <TextInput
-        style={styles.input}
-        placeholder="Email"
-        value={email}
-        onChangeText={(text) => setEmail(text)}
-      />
-      <TextInput
-        style={styles.input}
-        placeholder="Password"
-        secureTextEntry
-        value={password}
-        onChangeText={(text) => setPassword(text)}
-      />
-      <Button title="Login" onPress={handleLogin} color="navy" />
+      <Text style={styles.headerText}>Login</Text>
+      <TextInput style={styles.input} placeholder="Email" />
+      <TextInput style={styles.input} placeholder="Password" secureTextEntry={true} />
+      <TouchableOpacity style={styles.loginButton} onPress={handleLoginButtonPress}>
+        <Text style={styles.loginButtonText}>Login</Text>
+      </TouchableOpacity>
+      <TouchableOpacity onPress={handleRegisterLinkPress}>
+        <Text style={styles.registerLink}>New to the app? Register</Text>
+      </TouchableOpacity>
     </View>
   );
 };
@@ -48,21 +34,38 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#fff',
   },
-  title: {
+  headerText: {
     fontSize: 24,
     fontWeight: 'bold',
     marginBottom: 20,
   },
   input: {
-    width: '80%',
+    width: 300,
     height: 40,
     borderColor: 'gray',
     borderWidth: 1,
-    borderRadius: 5,
+    borderRadius: 8,
     paddingHorizontal: 10,
     marginBottom: 10,
+  },
+  loginButton: {
+    width: 300,
+    backgroundColor: 'purple',
+    borderRadius: 8,
+    paddingVertical: 12,
+    alignItems: 'center',
+    marginTop: 10,
+  },
+  loginButtonText: {
+    color: 'white',
+    fontSize: 18,
+    fontWeight: 'bold',
+  },
+  registerLink: {
+    fontSize: 16,
+    color: 'blue',
+    marginTop: 20,
   },
 });
 
